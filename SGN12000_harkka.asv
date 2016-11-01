@@ -1,0 +1,27 @@
+% Vili Saura 240264
+% Jonas Nikula
+
+% Ladataan kuvat muistiin.
+kuva1 = imread('rgbframe5206.png');
+kuva2 = imread('rgbframe5207.png');
+kuva3 = imread('rgbframe5208.png');
+
+% Prosessoidaan kuva2
+rivit = 12;
+sarakkeet = 20;
+
+lohkoRivit = 30;
+lohkoSarakkeet  = 32;
+%lohko = kuva2(1:lohkoRivit,1:lohkoSarakkeet);
+seuraavaSarake = 1;
+seuraavaRivi = 1;
+MSEkartta = cell(size(rivit, sarakkeet));
+
+for i = 1:rivit;
+    for j = 1:sarakkeet;
+       lohko  = kuva2(seuraava:lohkoRivit,1:lohkoSarakkeet);
+       seuraavaSarake = lohkoSarakkeet + seuraavaSarake;
+       MSEkartta(i,j) = {lohko};
+    end
+    seuraavaRivi = lohkoRivit + seuraavaSarake;
+end
