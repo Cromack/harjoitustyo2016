@@ -33,7 +33,7 @@ seuraavaRivi = 1;
 for i = 1: lohkoRivit;
     seuraavaSarake = 1;
     for j = 1: lohkoSarakkeet;
-       lohko  = kuva2(seuraavaRivi:(seuraavaRivi+lohkoKorkeus-1),seuraavaSarake:(seuraavaSarake+lohkoLeveys-1));
+       lohko  = kuva2(seuraavaRivi:(seuraavaRivi+lohkoKorkeus-1),seuraavaSarake:(seuraavaSarake+lohkoLeveys-1),:);
        seuraavaSarake = lohkoLeveys + seuraavaSarake;
        lohkoArray{i,j} = lohko;
     end
@@ -53,24 +53,56 @@ sarakeBufferi = lohkoLeveys/2;
 prevLohkoSarake = sarakeBufferi;
 
 for i = 1: MSERivit
+    etsintaRivit = (prevLohkoRivi - riviBufferi + 1):(prevLohkoRivi + lohkoKorkeus + riviBufferi);
+    prevLohkoRivi = prevLohkoRivi + lohkoKorkeus;
+    prevLohkoSarake = sarakeBufferi;
+    
     for j= 1: MSESarakkeet
-        etsintaRivit = (prevLohkoRivi - riviBufferi + 1):(prevLohkoRivi + lohkoKorkeus + riviBufferi);
         etsintaSarakkeet = (prevLohkoSarake - sarakeBufferi + 1):(prevLohkoSarake + lohkoLeveys + sarakeBufferi);
         
-        prevl
+        prevLohkoSarake = prevLohkoSarake + lohkoLeveys;
         
-        keskikuvaLohko = lohkoArray(i, j);
+        keskikuvaLohko = lohkoArray{i, j};
         kuva1EtsintaAlue = kuva1pad(etsintaRivit, etsintaSarakkeet, :);
         kuva3EtsintaAlue = kuva3pad(etsintaRivit, etsintaSarakkeet, :);
         
+        if i == 6 && j == 8
+            figure(1);
+            subplot(1,3,1); imshow(kuva1EtsintaAlue);
+            subplot(1,3,2); imshow(keskikuvaLohko);
+            subplot(1,3,3); imshow(kuva3EtsintaAlue);
+        end
+        
         [MSE1, xSiirtyma1, ySiirtyma1] = laskeParasMSE(keskikuvaLohko, kuva1EtsintaAlue);
         [MSE3, xSiirtyma3, ySiirtyma3] = laskeParasMSE(keskikuvaLohko, kuva3EtsintaAlue);
+        
+        if MSE1 < MSE3
+            MSEkartta(i, j) = MSE1;
+            LVK(i, j, :) = [xSiirtyma1, ySiirtyma1, 1];
+        else
+            MSEkartta(i, j) = MSE3;
+            LVK(i, j, :) = [xSiirtyma3, ySiirtyma3, 2];
+        end
         
         
     end
 end
 
+%% Visualisointeja
+figure(1);
+imshow(kuva2);
+hold on;
 
+
+hold off;
+
+mseColorFig = figure(2);
+kuvaKoko = size(kuva2);
+colormap parula;
+imagesc(MSEkartta);
+colorbar;
+axis off;
+truesize(mseColorFig, [kuvaKoko(1) kuvaKoko(2)]);
 
 
 

@@ -88,7 +88,32 @@ for i = 1: MSERivit
     end
 end
 
+%% Visualisointeja
+figure(1);
+imshow(kuva2);
+hold on;
 
+for i = 1: LVKRivit
+    for j = 1: LVKSarakkeet
+        qx = (i-1)*lohkoKorkeus - lohkoKorkeus/2;
+        qy = (j-1)*lohkoLeveys - lohkoLeveys/2;
+        qu = LVK(i, j, 1)*lohkoLeveys;
+        qv = LVK(i, j, 2)*lohkoKorkeus;
+        kuvaNro = LVK(i, j, 3);
+        quiver(qx, qy, qu, qv);
+    end
+end
+
+hold off;
+
+%%
+mseColorFig = figure(2);
+kuvaKoko = size(kuva2);
+colormap parula;
+imagesc(MSEkartta);
+colorbar;
+axis off;
+truesize(mseColorFig, [kuvaKoko(1) kuvaKoko(2)]);
 
 
 
