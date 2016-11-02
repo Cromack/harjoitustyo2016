@@ -66,14 +66,23 @@ for i = 1: MSERivit
         kuva1EtsintaAlue = kuva1pad(etsintaRivit, etsintaSarakkeet, :);
         kuva3EtsintaAlue = kuva3pad(etsintaRivit, etsintaSarakkeet, :);
         
-        figure(1);
-        subplot(1,3,1); imshow(keskikuvaLohko);
-        subplot(1,3,2); imshow(kuva1EtsintaAlue);
-        subplot(1,3,3); imshow(kuva3EtsintaAlue);
-        pause(1);
+        if i == 6 && j == 8
+            figure(1);
+            subplot(1,3,1); imshow(kuva1EtsintaAlue);
+            subplot(1,3,2); imshow(keskikuvaLohko);
+            subplot(1,3,3); imshow(kuva3EtsintaAlue);
+        end
         
         [MSE1, xSiirtyma1, ySiirtyma1] = laskeParasMSE(keskikuvaLohko, kuva1EtsintaAlue);
         [MSE3, xSiirtyma3, ySiirtyma3] = laskeParasMSE(keskikuvaLohko, kuva3EtsintaAlue);
+        
+        if MSE1 < MSE3
+            MSEkartta(i, j) = MSE1;
+            LVK(i, j, :) = [xSiirtyma1, ySiirtyma1, 1];
+        else
+            MSEkartta(i, j) = MSE3;
+            LVK(i, j, :) = [xSiirtyma3, ySiirtyma3, 2];
+        end
         
         
     end
