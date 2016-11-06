@@ -45,7 +45,7 @@ end
 kuva1pad = padarray(kuva1, [lohkoKorkeus/2, lohkoLeveys/2]);
 kuva3pad = padarray(kuva3, [lohkoKorkeus/2, lohkoLeveys/2]);
 
-%% Parhaan vastinlohkon etsintä
+%% Parhaan vastinlohkon etsintï¿½
 
 riviBufferi = lohkoKorkeus/2;
 prevLohkoRivi = riviBufferi;
@@ -78,10 +78,10 @@ for i = 1: MSERivit
         
         if MSE1 < MSE3
             MSEkartta(i, j) = MSE1;
-            LVK(i, j, :) = [xSiirtyma1, ySiirtyma1, 1];
+            LVK(i, j, :) = [ySiirtyma1, xSiirtyma1, 1];
         else
             MSEkartta(i, j) = MSE3;
-            LVK(i, j, :) = [xSiirtyma3, ySiirtyma3, 2];
+            LVK(i, j, :) = [ySiirtyma3, xSiirtyma3, 2];
         end
         
         
@@ -90,24 +90,50 @@ end
 
 %% Visualisointeja
 figure(1);
-imshow(kuva2);
+clf;
+% taustakuva = ones(size(kuva2));
+taustakuva = kuva2;
+imshow(taustakuva);
 hold on;
 
+qx1 = zeros(1, LVKRivit*LVKSarakkeet);
+qy1 = zeros(1, LVKRivit*LVKSarakkeet);
+qu1 = zeros(1, LVKRivit*LVKSarakkeet);
+qv1 = zeros(1, LVKRivit*LVKSarakkeet);
+
+qx2 = zeros(1, LVKRivit*LVKSarakkeet);
+qy2 = zeros(1, LVKRivit*LVKSarakkeet);
+qu2 = zeros(1, LVKRivit*LVKSarakkeet);
+qv2 = zeros(1, LVKRivit*LVKSarakkeet);
+
+laskuri = 1;
 for i = 1: LVKRivit
     for j = 1: LVKSarakkeet
-        qx = (i-1)*lohkoKorkeus - lohkoKorkeus/2;
-        qy = (j-1)*lohkoLeveys - lohkoLeveys/2;
-        qu = LVK(i, j, 1)*lohkoLeveys;
-        qv = LVK(i, j, 2)*lohkoKorkeus;
         kuvaNro = LVK(i, j, 3);
-        quiver(qx, qy, qu, qv);
+        
+        if kuvaNro == 1
+            qx1(laskuri) = (i)*lohkoKorkeus - lohkoKorkeus/2;
+            qy1(laskuri) = (j)*lohkoLeveys - lohkoLeveys/2;
+            qu1(laskuri) = LVK(i, j, 1);
+            qv1(laskuri) = LVK(i, j, 2);
+        else
+            qx2(laskuri) = (i)*lohkoKorkeus - lohkoKorkeus/2;
+            qy2(laskuri) = (j)*lohkoLeveys - lohkoLeveys/2;
+            qu2(laskuri) = LVK(i, j, 1);
+            qv2(laskuri) = LVK(i, j, 2);
+        end
+        laskuri = laskuri + 1;
     end
 end
+
+quiver(qx1, qy1, qu1, qv1, 'b');
+quiver(qx2, qy2, qu2, qv2, 'r');
 
 hold off;
 
 %%
 mseColorFig = figure(2);
+clf;
 kuvaKoko = size(kuva2);
 colormap parula;
 imagesc(MSEkartta);

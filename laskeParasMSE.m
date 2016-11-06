@@ -15,8 +15,8 @@ for i = 1: xtraRivit
         
         if tempMSE < parasMSE
             parasMSE = tempMSE;
-            xSiirtyma = j - xtraSarakkeet/2;
-            ySiirtyma = i - xtraRivit/2;
+            xSiirtyma = j - xtraSarakkeet/2 - 1;
+            ySiirtyma = i - xtraRivit/2 - 1;
         end
     end
 end
