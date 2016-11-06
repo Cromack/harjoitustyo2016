@@ -16,10 +16,10 @@ LVKSarakkeet = 20;
 LVKDimensiot = 3;
 LVK = double(zeros(LVKRivit, LVKSarakkeet, LVKDimensiot));
 
-MosaiikkiRivit = 360;
-MosaiikkiSarakkeet = 640;
-MosaiikkiDimensiot = 3;
-Mosaiikki = zeros(MosaiikkiRivit, MosaiikkiSarakkeet, MosaiikkiDimensiot);
+% MosaiikkiRivit = 360;
+% MosaiikkiSarakkeet = 640;
+% MosaiikkiDimensiot = 3;
+% Mosaiikki = zeros(MosaiikkiRivit, MosaiikkiSarakkeet, MosaiikkiDimensiot);
 
 %% lohkotus
 lohkoKorkeus = 30;
@@ -127,12 +127,12 @@ for i = 1: LVKRivit
     end
 end
 
-quiver(qx1, qy1, qu1, qv1, 'b');
-quiver(qx2, qy2, qu2, qv2, 'r');
+quiverPlot1 = quiver(qx1, qy1, qu1, qv1, 'b');
+quiverPlot2 = quiver(qx2, qy2, qu2, qv2, 'r');
 
 hold off;
 
-%%
+
 mseColorFig = figure(2);
 clf;
 kuvaKoko = size(kuva2);
