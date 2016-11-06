@@ -66,13 +66,6 @@ for i = 1: MSERivit
         kuva1EtsintaAlue = kuva1pad(etsintaRivit, etsintaSarakkeet, :);
         kuva3EtsintaAlue = kuva3pad(etsintaRivit, etsintaSarakkeet, :);
         
-        if i == 6 && j == 8
-            figure(1);
-            subplot(1,3,1); imshow(kuva1EtsintaAlue);
-            subplot(1,3,2); imshow(keskikuvaLohko);
-            subplot(1,3,3); imshow(kuva3EtsintaAlue);
-        end
-        
         [MSE1, xSiirtyma1, ySiirtyma1] = laskeParasMSE(keskikuvaLohko, kuva1EtsintaAlue);
         [MSE3, xSiirtyma3, ySiirtyma3] = laskeParasMSE(keskikuvaLohko, kuva3EtsintaAlue);
         
@@ -112,15 +105,15 @@ for i = 1: LVKRivit
         kuvaNro = LVK(i, j, 3);
         
         if kuvaNro == 1
-            qx1(laskuri) = (i)*lohkoKorkeus - lohkoKorkeus/2;
-            qy1(laskuri) = (j)*lohkoLeveys - lohkoLeveys/2;
-            qu1(laskuri) = LVK(i, j, 1);
-            qv1(laskuri) = LVK(i, j, 2);
+            qx1(laskuri) = (j)*lohkoLeveys - lohkoLeveys/2;
+            qy1(laskuri) = (i)*lohkoKorkeus - lohkoKorkeus/2;
+            qu1(laskuri) = LVK(i, j, 2);
+            qv1(laskuri) = LVK(i, j, 1);
         else
-            qx2(laskuri) = (i)*lohkoKorkeus - lohkoKorkeus/2;
-            qy2(laskuri) = (j)*lohkoLeveys - lohkoLeveys/2;
-            qu2(laskuri) = LVK(i, j, 1);
-            qv2(laskuri) = LVK(i, j, 2);
+            qx2(laskuri) = (j)*lohkoLeveys - lohkoLeveys/2;
+            qy2(laskuri) = (i)*lohkoKorkeus - lohkoKorkeus/2;
+            qu2(laskuri) = LVK(i, j, 2);
+            qv2(laskuri) = LVK(i, j, 1);
         end
         laskuri = laskuri + 1;
     end
