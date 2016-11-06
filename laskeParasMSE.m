@@ -11,12 +11,12 @@ ySiirtyma = Inf(1);
 for i = 1: xtraRivit
     for j = 1: xtraSarakkeet
         etsintaAlueenLohko = etsintaAlue(i:i+lohkonKoko(1)-1, j:j+lohkonKoko(2)-1, :);
-        tempMSE = immse(im2double(etsintaAlueenLohko), im2double(lohko));
+        tempMSE = immse(double(etsintaAlueenLohko), double(lohko));
         
         if tempMSE < parasMSE
             parasMSE = tempMSE;
-            xSiirtyma = j - xtraSarakkeet/2;
-            ySiirtyma = i - xtraRivit/2;
+            xSiirtyma = j - xtraSarakkeet/2 - 1;
+            ySiirtyma = i - xtraRivit/2 - 1;
         end
     end
 end
