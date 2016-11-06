@@ -6,7 +6,7 @@ kuva1 = imread('rgbframe5206.png');
 kuva2 = imread('rgbframe5207.png');
 kuva3 = imread('rgbframe5208.png');
 
-%% muuttuja setup
+%% Alustetaan tarvittavat muuttujat
 MSERivit = 12;
 MSESarakkeet = 20;
 MSEkartta = double(zeros(MSERivit, MSESarakkeet));
@@ -29,7 +29,7 @@ lohkoSarakkeet = 20;
 lohkoArray = cell(lohkoRivit, lohkoSarakkeet);
 
 seuraavaRivi = 1;
-% Jaetaan kuva2 lohkoihin, jotka tallennetaan MSEKarttaan
+% Jaetaan kuva2 lohkoihin, jotka tallennetaan lohkoArrayhin
 for i = 1: lohkoRivit;
     seuraavaSarake = 1;
     for j = 1: lohkoSarakkeet;
@@ -45,13 +45,14 @@ end
 kuva1pad = padarray(kuva1, [lohkoKorkeus/2, lohkoLeveys/2]);
 kuva3pad = padarray(kuva3, [lohkoKorkeus/2, lohkoLeveys/2]);
 
-%% Parhaan vastinlohkon etsint�
+%% Parhaan vastinlohkon etsintä
 
 riviBufferi = lohkoKorkeus/2;
 prevLohkoRivi = riviBufferi;
 sarakeBufferi = lohkoLeveys/2;
 prevLohkoSarake = sarakeBufferi;
 
+% Käydään kaikki lohkot läpi
 for i = 1: MSERivit
     etsintaRivit = (prevLohkoRivi - riviBufferi + 1):(prevLohkoRivi + lohkoKorkeus + riviBufferi);
     prevLohkoRivi = prevLohkoRivi + lohkoKorkeus;
@@ -62,13 +63,18 @@ for i = 1: MSERivit
         
         prevLohkoSarake = prevLohkoSarake + lohkoLeveys;
         
+        % Etsintä alue on siis 4x lohkon kokoinen alue joka ympäröi lohkoa
         keskikuvaLohko = lohkoArray{i, j};
         kuva1EtsintaAlue = kuva1pad(etsintaRivit, etsintaSarakkeet, :);
         kuva3EtsintaAlue = kuva3pad(etsintaRivit, etsintaSarakkeet, :);
         
+        % Parhaiten vastaavan lohkon etsintä on siirretty omaan funktioonsa
+        % jotta tämä kohta olisi hieman selkeämpi
         [MSE1, xSiirtyma1, ySiirtyma1] = laskeParasMSE(keskikuvaLohko, kuva1EtsintaAlue);
         [MSE3, xSiirtyma3, ySiirtyma3] = laskeParasMSE(keskikuvaLohko, kuva3EtsintaAlue);
         
+        % Vertaillaan keskivirheitä ja otetaan pienemmän virheen omaava
+        % lohko
         if MSE1 < MSE3
             MSEkartta(i, j) = MSE1;
             LVK(i, j, :) = [ySiirtyma1, xSiirtyma1, 1];
@@ -89,6 +95,8 @@ taustakuva = kuva2;
 imshow(taustakuva);
 hold on;
 
+% Käytetään kahta eri vektorijoukkoa, 1 on edeltävälle kuvalle ja 2
+% seuraavalle
 qx1 = zeros(1, LVKRivit*LVKSarakkeet);
 qy1 = zeros(1, LVKRivit*LVKSarakkeet);
 qu1 = zeros(1, LVKRivit*LVKSarakkeet);

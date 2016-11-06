@@ -4,6 +4,9 @@ etsintaAlueenKoko = size(etsintaAlue);
 xtraRivit = etsintaAlueenKoko(1) - lohkonKoko(1);
 xtraSarakkeet = etsintaAlueenKoko(2) - lohkonKoko(2);
 
+% Muuttujat alustetaan äärettömiksi jotta alustettuja arvoja ei palauteta
+% funktion tuloksena (paitsi jos kaikki vertailtavat arvot ovat myös
+% äärettömiä)
 parasMSE = Inf(1);
 xSiirtyma = Inf(1);
 ySiirtyma = Inf(1);
